@@ -30,9 +30,8 @@ public class ZooKeeperClient{
             logger.info("zookeeper session establelished" );
         } catch (Exception e) {
             logger.error(e.getMessage());
-        } finally {
-            return zooKeeper;
         }
+        return zooKeeper;
     }
 
     public static void main(String[] args) throws InterruptedException {

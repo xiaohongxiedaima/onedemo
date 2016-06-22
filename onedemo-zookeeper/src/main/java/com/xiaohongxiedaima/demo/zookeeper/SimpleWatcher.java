@@ -22,7 +22,7 @@ public class SimpleWatcher implements Watcher {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-
+            logger.error(e.getMessage(), e);
         }
         return true;
     }
