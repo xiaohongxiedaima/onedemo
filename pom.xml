@@ -12,6 +12,7 @@
         <module>onedemo-spark</module>
         <module>onedemo-hbase</module>
         <module>onedemo-scala</module>
+        <module>onedemo-javacore</module>
     </modules>
     <packaging>pom</packaging>
 
