@@ -2,6 +2,12 @@ package com.xiaohongxiedaima.demo;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.hive.conf.HiveConf;
+import org.apache.hadoop.hive.metastore.HiveMetaStoreClient;
+import org.apache.hadoop.hive.metastore.api.MetaException;
+import org.apache.hadoop.hive.metastore.api.Table;
+import org.apache.hadoop.hive.metastore.tools.HiveMetaTool;
+import org.apache.thrift.TException;
 import org.omg.CORBA.PRIVATE_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +82,12 @@ public class BulkLoad {
 
         parseOptions(args);
 
+    }
+
+    public static void getTableMetaStore(String dbname, String name) throws TException {
+        HiveConf hiveConf = new HiveConf();
+        HiveMetaStoreClient hiveMetaStoreClient = new HiveMetaStoreClient(hiveConf);
+        Table table = hiveMetaStoreClient.getTable(dbname, name);
     }
 
 }
