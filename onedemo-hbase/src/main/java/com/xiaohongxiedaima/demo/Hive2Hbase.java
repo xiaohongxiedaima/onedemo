@@ -1,37 +1,39 @@
 package com.xiaohongxiedaima.demo;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.HConnection;
+import org.apache.hadoop.hbase.client.HConnectionManager;
+import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.hadoop.hive.metastore.HiveMetaStoreClient;
-import org.apache.hadoop.hive.metastore.api.MetaException;
 import org.apache.hadoop.hive.metastore.api.Table;
-import org.apache.hadoop.hive.metastore.tools.HiveMetaTool;
 import org.apache.thrift.TException;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author xiaohongxiedaima
  * @version 16/6/25
  * @E-mail redfishinaction@yahoo.com
  */
-public class BulkLoad {
+public class Hive2Hbase {
 
-    private static final Logger logger = LoggerFactory.getLogger(BulkLoad.class);
+    private static final Logger logger = LoggerFactory.getLogger(Hive2Hbase.class);
 
     private static final Options OPTIONS = new Options();
 
+    private static final String HIVE_DBNAME = "hive.dbname";
+    private static final String HIVE_TABLENAME = "hive.tablename";
+    private static final String HBASE_TABLENAME = "hbase.tablename";
+
     private static final Map<String,String> CONF = new HashMap<String,String>();
+    private static final Hive2HbaseConf HIVE_2_HBASE_CONF = new Hive2HbaseConf();
 
     static {
         initOptions();
@@ -60,7 +62,7 @@ public class BulkLoad {
                         System.out.println(line);
                         if (line != null && !line.trim().equals("")) {
                             String[] keyValue = line.split("=");
-                            CONF.put(keyValue[0], keyValue[1]);
+                            CONF.put(keyValue[0].trim(), keyValue[1].trim());
                         }
                     }
                 }
@@ -74,20 +76,46 @@ public class BulkLoad {
         }
     }
 
-    public static void main(String[] args) {
+    private static void checkConf() {
+        String hiveDBName = CONF.get(HIVE_DBNAME);
+        String hiveTableName = CONF.get(HIVE_TABLENAME);
+        String hbaseTableName = CONF.get(HBASE_TABLENAME);
+
+        HIVE_2_HBASE_CONF.setHiveDBName(hiveDBName);
+        HIVE_2_HBASE_CONF.setHiveTableName(hiveTableName);
+        HIVE_2_HBASE_CONF.setHbaseTableName(hbaseTableName);
+    }
+
+    public static void main(String[] args) throws TException, IOException {
 
         args = new String[] {
                 "-conf","/Users/redfish/code/IntelliJIDEAProjects/onedemo/onedemo-hbase/src/main/resources/bulkload.properties"
         };
 
         parseOptions(args);
+        // 检查配置文件的参数是否正确
+        checkConf();
+
+        Table hiveTable = getHiveTable(HIVE_2_HBASE_CONF.getHiveDBName(), HIVE_2_HBASE_CONF.getHiveTableName());
+        HTableInterface hbaseTable = getHTableInterface(HIVE_2_HBASE_CONF.getHbaseTableName());
+
+
 
     }
 
-    public static void getTableMetaStore(String dbname, String name) throws TException {
+
+    public static Table getHiveTable(String dbname, String name) throws TException {
         HiveConf hiveConf = new HiveConf();
         HiveMetaStoreClient hiveMetaStoreClient = new HiveMetaStoreClient(hiveConf);
-        Table table = hiveMetaStoreClient.getTable(dbname, name);
+        Table hiveTable = hiveMetaStoreClient.getTable(dbname, name);
+        return hiveTable;
+    }
+
+    public static HTableInterface getHTableInterface(String tableName) throws IOException {
+        Configuration configuration = HBaseConfiguration.create();
+        HConnection connection = HConnectionManager.createConnection(configuration);
+        HTableInterface table = connection.getTable(tableName);
+        return table;
     }
 
 }
