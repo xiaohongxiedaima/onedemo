@@ -10,6 +10,8 @@ class Hive2HbaseConf {
 
     private String hiveDBName;
     private String hiveTableName;
+    private String hivePartition;
+
     private String hbaseTableName;
 
 
@@ -31,6 +33,14 @@ class Hive2HbaseConf {
 
     public void setHiveTableName(String hiveTableName) {
         this.hiveTableName = hiveTableName;
+    }
+
+    public String getHivePartition() {
+        return hivePartition;
+    }
+
+    public void setHivePartition(String hivePartition) {
+        this.hivePartition = hivePartition;
     }
 
     public String getHbaseTableName() {
