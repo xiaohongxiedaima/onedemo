@@ -19,10 +19,7 @@ class Point(val x: Int, val y: Int) {
 
 object Point {
   def main(args: Array[String]) {
-
     val point = new Point
     print(point)
-
-
   }
 }
