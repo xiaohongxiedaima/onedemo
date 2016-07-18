@@ -13,6 +13,7 @@
         <module>onedemo-hbase</module>
         <module>onedemo-scala</module>
         <module>onedemo-javacore</module>
+        <module>onedemo-lucene</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -53,6 +53,12 @@
             <version>${spark.version}</version>
             <!--<scope>provided</scope>-->
         </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
 
         <dependency>
             <groupId>org.apache.hbase</groupId>
@@ -80,24 +86,11 @@
             <artifactId>hbase-server</artifactId>
             <version>${hbase.version}</version>
         </dependency>
-        <!--
-                <dependency>
-                    <groupId>com.juanpi.connectors</groupId>
-                    <artifactId>hbase-connector</artifactId>
-                    <version>1.1.4</version>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>log4j-over-slf4j</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-        -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-            <!--<scope>compile</scope>-->
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.scalikejdbc</groupId>

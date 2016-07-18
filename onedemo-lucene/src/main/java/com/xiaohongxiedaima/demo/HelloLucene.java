@@ -135,7 +135,6 @@ public class HelloLucene {
             }
         }
 
-
     }
     public static void main(String[] args) {
         HelloLucene helloLucene = new HelloLucene();
