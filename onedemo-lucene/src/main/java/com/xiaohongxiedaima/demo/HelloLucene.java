@@ -33,9 +33,9 @@ public class HelloLucene {
 
     private static final Logger logger = LoggerFactory.getLogger(HelloLucene.class);
 
-    private static final String SRC_DIR_PATH = "/Users/redfish/code/IntelliJIDEAProjects/onedemo/onedemo-lucene/src/main/java/com/xiaohongxiedaima/demo";
+    private static final String SRC_DIR_PATH = "/home/hadoop/code/onedemo/onedemo-lucene/src/main/java/com/xiaohongxiedaima/demo";
 
-    private static final String INDEX_DIR = "/Users/redfish/code/IntelliJIDEAProjects/onedemo/onedemo-lucene/src/main/resources";
+    private static final String INDEX_DIR = "/home/hadoop/code/onedemo/onedemo-lucene/idx_dir/hell_lucene";
 
     public void index() {
 
@@ -138,7 +138,7 @@ public class HelloLucene {
     }
     public static void main(String[] args) {
         HelloLucene helloLucene = new HelloLucene();
-//        helloLucene.index();
-        helloLucene.search();
+        helloLucene.index();
+//        helloLucene.search();
     }
 }

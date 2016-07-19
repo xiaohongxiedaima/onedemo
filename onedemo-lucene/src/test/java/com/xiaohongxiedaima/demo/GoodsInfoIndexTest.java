@@ -22,4 +22,9 @@ public class GoodsInfoIndexTest {
         goodsInfoIndex.index();
     }
 
+    @Test
+    public void testSearch() {
+        goodsInfoIndex.search();
+    }
+
 }
