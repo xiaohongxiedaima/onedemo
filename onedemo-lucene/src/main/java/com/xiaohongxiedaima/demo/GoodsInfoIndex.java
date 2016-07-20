@@ -103,13 +103,10 @@ public class GoodsInfoIndex {
 //                DoubleField goodsBaseScoreField = new DoubleField(GOODS_BASE_SCORE, goodsBaseScore, Field.Store.YES);
                 TextField goodsAttrsField = new TextField(GOODS_ATTRS, goodsAttrs, Field.Store.YES);
 
-                SortedDocValuesField goodsBaseScoreDocValueField = new SortedDocValuesField(GOODS_BASE_SCORE, new BytesRef(String.valueOf(goodsBaseScore)));
-
                 Document document = new Document();
                 document.add(goodsIdField);
 //                document.add(goodsBaseScoreField);
                 document.add(goodsAttrsField);
-                document.add(goodsBaseScoreDocValueField);
 
                 indexWriter.addDocument(document);
             }
@@ -142,10 +139,10 @@ public class GoodsInfoIndex {
             QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
             Query query = queryParser.parse("水染皮");
 
-            SortField sortField = new SortField(GOODS_BASE_SCORE, SortField.Type.DOUBLE);
-            Sort sort = new Sort(sortField);
+//            SortField sortField = new SortField(GOODS_BASE_SCORE, SortField.Type.DOUBLE);
+//            Sort sort = new Sort(sortField);
 
-            TopDocs topDocs = searcher.search(query, 10, sort);
+            TopDocs topDocs = searcher.search(query, 10);
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 logger.info("document: {}, score: {}", searcher.doc(scoreDoc.doc), scoreDoc.score);
