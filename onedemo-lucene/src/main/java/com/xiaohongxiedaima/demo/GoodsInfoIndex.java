@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class GoodsInfoIndex {
 
-    private static final String IDX_DIR = "/home/hadoop/code/onedemo/onedemo-lucene/idx_dir/goods_info";
+    private static final String IDX_DIR = "/Users/redfish/code/IntelliJIDEAProjects/onedemo/onedemo-lucene/idx_dir/goods_info";
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsInfoIndex.class);
 
@@ -48,7 +48,7 @@ public class GoodsInfoIndex {
 
     // 测试基础数据
     static {
-        Integer[] ids = new Integer[]{1, 2, 3, 4, 5};
+        String[] ids = new String[]{"1", "2", "3", "4", "5"};
         Double[] baseScore = new Double[]{0.3, 0.5, 0.1, 0.9, 0.6};
         String[] attrs = new String[] {
                 "红色 新品 新品 珂卡芙",
@@ -57,6 +57,7 @@ public class GoodsInfoIndex {
                 "黑色 水染皮 新品 低帮",
                 "黑色 复古 胶粘鞋"
         };
+
 
         for (int i = 0 ; i < ids.length ;i ++) {
             Map<String, Object> record = new HashMap<String, Object>();
@@ -94,19 +95,22 @@ public class GoodsInfoIndex {
             indexWriter = new IndexWriter(directory, conf);
 
             for (Map<String, Object> record : SRC_DATA) {
-                Integer goodsId = (Integer) record.get(GOODS_ID);
+                String goodsId = (String) record.get(GOODS_ID);
                 Double goodsBaseScore = (Double) record.get(GOODS_BASE_SCORE);
                 String goodsAttrs = (String) record.get(GOODS_ATTRS);
 
                 // 添加索引
-                IntField goodsIdField = new IntField(GOODS_ID, goodsId, Field.Store.YES);
+                StringField goodsIdField = new StringField(GOODS_ID, goodsId, Field.Store.YES);
 //                DoubleField goodsBaseScoreField = new DoubleField(GOODS_BASE_SCORE, goodsBaseScore, Field.Store.YES);
                 TextField goodsAttrsField = new TextField(GOODS_ATTRS, goodsAttrs, Field.Store.YES);
+
+                SortedDocValuesField goodsBaseScoreDocValueField = new SortedDocValuesField(GOODS_BASE_SCORE, new BytesRef(String.valueOf(goodsBaseScore)));
 
                 Document document = new Document();
                 document.add(goodsIdField);
 //                document.add(goodsBaseScoreField);
                 document.add(goodsAttrsField);
+                document.add(goodsBaseScoreDocValueField);
 
                 indexWriter.addDocument(document);
             }
@@ -139,8 +143,46 @@ public class GoodsInfoIndex {
             QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
             Query query = queryParser.parse("水染皮");
 
-//            SortField sortField = new SortField(GOODS_BASE_SCORE, SortField.Type.DOUBLE);
-//            Sort sort = new Sort(sortField);
+            SortField sortField = new SortField(GOODS_BASE_SCORE, SortField.Type.DOUBLE);
+            Sort sort = new Sort(sortField);
+
+            TopDocs topDocs = searcher.search(query, 10, sort);
+
+            for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+                logger.info("document: {}, score: {}", searcher.doc(scoreDoc.doc), scoreDoc.score);
+            }
+
+
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        } catch (ParseException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据传入的匹配字符串匹配结果
+     * @param str
+     */
+    public void searchByStr(String str) {
+        Directory dir = getDir();
+        IndexReader reader = null;
+        try {
+            reader = DirectoryReader.open(dir);
+
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);;
+            QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
+            Query query = queryParser.parse(str);
 
             TopDocs topDocs = searcher.search(query, 10);
 

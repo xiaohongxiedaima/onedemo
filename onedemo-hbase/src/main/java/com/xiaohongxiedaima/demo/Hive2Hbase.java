@@ -27,7 +27,7 @@ import java.util.*;
  * @version 16/6/25
  * @E-mail redfishinaction@yahoo.com
  */
-public class Hive2Hbase {
+public class Hive2Hbase { 
 
     private static final Logger logger = LoggerFactory.getLogger(Hive2Hbase.class);
 
@@ -43,6 +43,7 @@ public class Hive2Hbase {
 
     private static final String HBASE_TABLENAME = "hbase.tablename";
 
+    private static final String MIDDLE_DATA_ROOT_PATH = "/tmp/BulkLoad";
 
     private static final Map<String,String> CONF = new HashMap<String,String>();
     public static final Hive2HbaseConf HIVE_2_HBASE_CONF = new Hive2HbaseConf();

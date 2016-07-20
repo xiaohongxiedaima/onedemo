@@ -30,6 +30,9 @@ public class SynonymsTokenFilter extends TokenFilter {
 
     public boolean incrementToken() throws IOException {
 
+        if (!input.incrementToken()) // #4
+            return false;
+
         if (synonymsContext.containSynonyms(cta.toString())) {
 
             for (String synonyms : synonymsContext.getSynonyms(cta.toString())) {
