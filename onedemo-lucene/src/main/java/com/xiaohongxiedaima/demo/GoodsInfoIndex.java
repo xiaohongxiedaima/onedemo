@@ -7,10 +7,12 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.rangetree.NumericRangeTreeQuery;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.NumericUtils;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.slf4j.Logger;
@@ -19,10 +21,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author xiaohongxiedaima
@@ -31,9 +32,24 @@ import java.util.Map;
  */
 public class GoodsInfoIndex {
 
-    private static final String IDX_DIR = "/Users/redfish/code/IntelliJIDEAProjects/onedemo/onedemo-lucene/idx_dir/goods_info";
+//    private static final String IDX_DIR = "/home/hadoop/code/onedemo/onedemo-lucene/idx_dir/goods_info";
+
+    private static final String IDX_DIR = "/home/hadoop/下载/userprofile-se/history/20160726160019/all";
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsInfoIndex.class);
+
+    private static final FieldType DOUBLE_FIELD_TYPE_STORED_SORTED = new FieldType();
+    static {
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setTokenized(true);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setOmitNorms(true);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setIndexOptions(IndexOptions.DOCS);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setNumericType(FieldType.NumericType.DOUBLE);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setStored(true);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setDocValuesType(DocValuesType.NUMERIC);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.freeze();
+    }
+
+
 
     private static final List<Map<String, Object>> SRC_DATA = new ArrayList<Map<String, Object>>();
 
@@ -48,14 +64,14 @@ public class GoodsInfoIndex {
 
     // 测试基础数据
     static {
-        String[] ids = new String[]{"1", "2", "3", "4", "5"};
-        Double[] baseScore = new Double[]{0.3, 0.5, 0.1, 0.9, 0.6};
+        Integer[] ids = new Integer[]{1,2,3,4,5};
+        Double[] baseScore = new Double[]{0.2d, 0.2d, 0.3d, 0.3d, 0.1d};
         String[] attrs = new String[] {
                 "红色 新品 新品 珂卡芙",
                 "白色 复古 中空 水",
-                "红色 水染皮 复古 纯色 水染皮",
+                "红色 红色 红色 水染皮 复古 纯色 水染皮",
                 "黑色 水染皮 新品 低帮",
-                "黑色 复古 胶粘鞋"
+                "红色 黑色 复古 胶粘鞋"
         };
 
 
@@ -85,7 +101,8 @@ public class GoodsInfoIndex {
 
         try {
             Directory directory = getDir();
-            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);;
+            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+//            Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
             // 性能优化
@@ -95,22 +112,27 @@ public class GoodsInfoIndex {
             indexWriter = new IndexWriter(directory, conf);
 
             for (Map<String, Object> record : SRC_DATA) {
-                String goodsId = (String) record.get(GOODS_ID);
+                Integer goodsId = (Integer) record.get(GOODS_ID);
                 Double goodsBaseScore = (Double) record.get(GOODS_BASE_SCORE);
                 String goodsAttrs = (String) record.get(GOODS_ATTRS);
 
                 // 添加索引
-                StringField goodsIdField = new StringField(GOODS_ID, goodsId, Field.Store.YES);
-//                DoubleField goodsBaseScoreField = new DoubleField(GOODS_BASE_SCORE, goodsBaseScore, Field.Store.YES);
-                TextField goodsAttrsField = new TextField(GOODS_ATTRS, goodsAttrs, Field.Store.YES);
+                IntField goodsIdField = new IntField(GOODS_ID, goodsId, Field.Store.YES);
 
-                SortedDocValuesField goodsBaseScoreDocValueField = new SortedDocValuesField(GOODS_BASE_SCORE, new BytesRef(String.valueOf(goodsBaseScore)));
+//                SortedNumericDocValuesField goodsBaseScoreField = new SortedNumericDocValuesField(GOODS_BASE_SCORE, NumericUtils.doubleToSortableLong(goodsBaseScore));
+
+//                DoubleDocValuesField goodsBaseScoreField = new DoubleDocValuesField(GOODS_BASE_SCORE, goodsBaseScore.doubleValue());
+//                DoubleField goodsBaseScoreField = new DoubleField(GOODS_BASE_SCORE, goodsBaseScore.doubleValue(), DOUBLE_FIELD_TYPE_STORED_SORTED);
+
+                SortedDocValuesField goodsBaseScoreField = new SortedDocValuesField(GOODS_BASE_SCORE, new BytesRef(String.valueOf(goodsBaseScore).getBytes()));
+
+//                NumericDocValuesField goodsBaseScoreField = new NumericDocValuesField(GOODS_BASE_SCORE, Double.doubleToRawLongBits(goodsBaseScore));
+                TextField goodsAttrsField = new TextField(GOODS_ATTRS, goodsAttrs, Field.Store.YES);
 
                 Document document = new Document();
                 document.add(goodsIdField);
-//                document.add(goodsBaseScoreField);
+                document.add(goodsBaseScoreField);
                 document.add(goodsAttrsField);
-                document.add(goodsBaseScoreDocValueField);
 
                 indexWriter.addDocument(document);
             }
@@ -129,27 +151,67 @@ public class GoodsInfoIndex {
 
     }
 
-    public void search() {
+    public void searchByNumeric() {
         Directory dir = getDir();
         IndexReader reader = null;
         try {
             reader = DirectoryReader.open(dir);
 
             IndexSearcher searcher = new IndexSearcher(reader);
-//            Term term = new Term(GOODS_ATTRS, "水染皮");
-//            Query query = new TermQuery(term);
 
-            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);;
-            QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
-            Query query = queryParser.parse("水染皮");
+            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
 
-            SortField sortField = new SortField(GOODS_BASE_SCORE, SortField.Type.DOUBLE);
-            Sort sort = new Sort(sortField);
+//            Query query = NumericRangeQuery.newDoubleRange(GOODS_BASE_SCORE, 0d, 1d, true, true);
 
-            TopDocs topDocs = searcher.search(query, 10, sort);
+            Query query = NumericRangeQuery.newIntRange(GOODS_BASE_SCORE, 1, 10, true, true);
+
+            TopDocs topDocs = searcher.search(query, 10);
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-                logger.info("document: {}, score: {}", searcher.doc(scoreDoc.doc), scoreDoc.score);
+                Document doc = searcher.doc(scoreDoc.doc);
+                logger.info("doc: {}, goodsBaseScore: {} goodsAttrs: {}, score: {}", scoreDoc.doc, doc.get(GOODS_BASE_SCORE), doc.get(GOODS_ATTRS), scoreDoc.score);
+            }
+
+
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
+
+    public void search(String str) {
+        Directory dir = getDir();
+        IndexReader reader = null;
+        try {
+            reader = DirectoryReader.open(dir);
+
+            IndexSearcher searcher = new IndexSearcher(reader);
+
+            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+//            Analyzer analyzer = new StandardAnalyzer();
+            QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
+            logger.info(str);
+            Query query = queryParser.parse(str);
+
+//            SortField sortField1 = SortField.FIELD_SCORE;
+            SortField sortField2 = new SortField(GOODS_BASE_SCORE, SortField.Type.STRING, true);
+            SortField[] sortFeilds = new SortField[]{
+                    sortField2
+            };
+            Sort sort = new Sort(sortFeilds);
+
+            TopDocs topDocs = searcher.search(query, 10, sort, true, true);
+
+            for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+                Document doc = searcher.doc(scoreDoc.doc);
+                logger.info("doc: {}, goodsBaseScore: {} goodsAttrs: {}, score: {}", scoreDoc.doc, doc.get(GOODS_BASE_SCORE), doc.get(GOODS_ATTRS), scoreDoc.score);
             }
 
 
@@ -168,26 +230,27 @@ public class GoodsInfoIndex {
         }
     }
 
-    /**
-     * 根据传入的匹配字符串匹配结果
-     * @param str
-     */
-    public void searchByStr(String str) {
+    public void searchStoreInHdfs(String str) {
         Directory dir = getDir();
         IndexReader reader = null;
         try {
-            reader = DirectoryReader.open(dir);
+            reader = INDEX_READER;
 
             IndexSearcher searcher = new IndexSearcher(reader);
 
-            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);;
+            Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
             QueryParser queryParser = new QueryParser(GOODS_ATTRS, analyzer);
             Query query = queryParser.parse(str);
 
-            TopDocs topDocs = searcher.search(query, 10);
+            SortedNumericSortField cate3Score = new SortedNumericSortField("cate3_score", SortField.Type.DOUBLE);
+            Sort sort = new Sort(cate3Score);
+//            TopDocs topDocs = searcher.search(query, 10);
+
+            TopDocs topDocs = searcher.search(query, 10, sort);
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-                logger.info("document: {}, score: {}", searcher.doc(scoreDoc.doc), scoreDoc.score);
+                Document doc = searcher.doc(scoreDoc.doc);
+                logger.info("doc:{}, doc:{}", scoreDoc.doc, doc.toString());
             }
 
 
@@ -195,15 +258,64 @@ public class GoodsInfoIndex {
             logger.error(e.getMessage(), e);
         } catch (ParseException e) {
             logger.error(e.getMessage(), e);
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    logger.error(e.getMessage(), e);
-                }
-            }
         }
+    }
+
+    private static IndexReader INDEX_READER = null;
+    static {
+        Path path = FileSystems.getDefault().getPath(IDX_DIR);
+        Directory directory = null;
+        try {
+            directory = FSDirectory.open(path);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        Directory dir = directory;
+        try {
+            INDEX_READER = DirectoryReader.open(dir);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+//        GoodsInfoIndex idx = new GoodsInfoIndex();
+//        idx.searchStoreInHdfs("attr: 短袖");
+
+        ExecutorService es = Executors.newFixedThreadPool(1);
+
+        for (int i = 0 ;i < 1000; i ++) {
+            es.execute(new Runnable() {
+                public void run() {
+
+                    String[] ss = new String[] {
+                            "中长裙  圆领",
+                            "短裙 高腰 圆领 百褶裙",
+                            "中长裙 高腰"
+                    };
+
+                    Random random = new Random();
+                    Integer idx = random.nextInt(3);
+
+                    String s = ss[idx];
+
+                    GoodsInfoIndex goodsInfoIndex = new GoodsInfoIndex();
+
+                    long start = System.currentTimeMillis();
+
+                    goodsInfoIndex.searchStoreInHdfs(s);
+
+                    long end = System.currentTimeMillis();
+
+                    logger.info("*****************************************s: {}, cost: {}", s, end-start);
+                }
+            });
+
+        }
+        es.shutdown();
     }
 
 }
