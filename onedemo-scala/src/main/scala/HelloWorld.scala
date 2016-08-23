@@ -12,7 +12,7 @@ object HelloWorld {
 //      print(s"'$value',")
 //    }
 
-    p(0, 100, 100, 8)
+    p(0, 100, 100, 2)
 
   }
 

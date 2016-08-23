@@ -1,7 +1,6 @@
 package com.xiaohongxiedaima.demo.split;
 
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
@@ -21,6 +20,7 @@ import java.math.BigInteger;
  * @E-mail redfishinaction@yahoo.com
  */
 public class OSHTableCreater {
+
     /**
      * <pre>
      * 日志
@@ -61,8 +61,8 @@ public class OSHTableCreater {
             HColumnDescriptor column = null;
             for (String fm : fms) {
                 column = new HColumnDescriptor(fm);
-                column.setBloomFilterType(BloomType.ROWCOL);
-                table.addFamily(column);
+//                column.setBloomFilterType(BloomType.ROWCOL);
+//                table.addFamily(column);
             }
 
             admin.createTable(table, splits);
