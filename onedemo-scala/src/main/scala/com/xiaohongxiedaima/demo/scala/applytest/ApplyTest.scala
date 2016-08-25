@@ -29,7 +29,7 @@ object VipUser {
 
 object UnapplyTest {
   def main(args: Array[String]) {
-    val user = new VipUser("shi")
+    val user: User = new VipUser("shi")
 
     val result = user match {
       case FreeUser(name) => name + "san_free"
