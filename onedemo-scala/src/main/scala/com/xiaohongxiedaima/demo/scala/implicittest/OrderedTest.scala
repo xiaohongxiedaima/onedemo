@@ -21,6 +21,7 @@ object OrderedTest {
     }
   }
 
+
   def main(args: Array[String]) {
     val arr = Array(OrderedTest("shi", 11), OrderedTest("san", 13), OrderedTest("liu", 12))
     Sorting.quickSort(arr)
@@ -30,5 +31,12 @@ object OrderedTest {
       }
     }
     arr.foreach(println(_))
+  }
+
+}
+
+class MyMath[T] {
+  def smaller(a: T, b: T)(implicit order: (T) => Ordered[T]): T = {
+    if (order(a) < b) a else b
   }
 }
