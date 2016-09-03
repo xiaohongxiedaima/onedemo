@@ -36,7 +36,6 @@ object UnapplyTest {
       case VipUser(name) => name + "san_vip"
     }
 
-    result.charAt(1)
     println(result)
   }
 }
