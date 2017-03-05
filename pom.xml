@@ -14,6 +14,8 @@
         <module>onedemo-scala</module>
         <module>onedemo-javacore</module>
         <module>onedemo-lucene</module>
+        <module>onedemo-elasticsearch</module>
+        <module>onedemo-utils</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -24,6 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j-version>1.7.7</slf4j-version>
         <logback-version>1.0.1</logback-version>
+        <log4j.version>2.7</log4j.version>
         <junit-version>4.4</junit-version>
     </properties>
 
@@ -42,6 +45,17 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
         <dependency>
