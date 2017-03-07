@@ -1,7 +1,7 @@
 package com.xiaohongxiedaima.demo.elasticsearch;
 
 import com.xiaohongxiedaima.demo.elasticsearch.utils.ESClient;
-import org.elasticsearch.action.search.SearchRequestBuilder;
+import com.xiaohongxiedaima.demo.elasticsearch.utils.SearchResponseUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -23,16 +23,11 @@ public class SearchTest {
     public void testSearch() {
         TransportClient client = ESClient.getClient();
 
-        QueryBuilder queryBuilder = QueryBuilders.termQuery("title", "复古");
+        QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", "室");
 
         SearchResponse searchResponse = client.prepareSearch("demo").setTypes("demo").setQuery(queryBuilder).get();
+        SearchResponseUtils.print(searchResponse);
 
-        SearchHits hits = searchResponse.getHits();
-
-        LOG.info("total hits: {}", hits.getTotalHits());
-        for (SearchHit hit : hits.getHits()) {
-            LOG.info("source: {}", hit.getSourceAsString());
-        }
     }
 
 }

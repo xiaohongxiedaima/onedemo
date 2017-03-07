@@ -1,0 +1,39 @@
+http://localhost:9200/demo/?pretty
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 2,
+    "analysis": {
+      "filter": {
+        "synonym_filter": {
+          "type": "synonym",
+          "synonyms_path": "synonyms/dict.txt"
+        }
+      },
+      "analyzer": {
+        "custom_analyzer": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "synonym_filter"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "demo": {
+      "properties": {
+        "title": {
+          "type": "text",
+          "fielddata": true,
+          "analyzer": "custom_analyzer"
+        },
+        "title1": {
+          "type": "completion",
+          "fielddata": true
+        }
+      }
+    }
+  }
+}
