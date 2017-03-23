@@ -22,13 +22,12 @@ public class SuggestionsTest {
     private static final TransportClient esClient = ESClient.getClient();
 
     @Test
-    public void testTermSuggester() {
+    public void testCompletionSuggester() {
 
         SuggestBuilder suggestBuilder = new SuggestBuilder();
+        CompletionSuggestionBuilder completionSuggestionBuilder = SuggestBuilders.completionSuggestion("title1").text("hi e");
 
-        TermSuggestionBuilder termSuggestionBuilder = SuggestBuilders.termSuggestion("title1").text("hello e");
-
-        suggestBuilder.addSuggestion("title1Term", termSuggestionBuilder);
+        suggestBuilder.addSuggestion("title1Completiong", completionSuggestionBuilder);
         LOG.info("suggest: {}", suggestBuilder.toString());
 
         SearchResponse searchResponse = esClient.prepareSearch("demo").setTypes("demo").suggest(suggestBuilder).get();
@@ -37,14 +36,14 @@ public class SuggestionsTest {
 
     }
 
-
     @Test
-    public void testCompletionSuggester() {
+    public void testTermSuggester() {
 
         SuggestBuilder suggestBuilder = new SuggestBuilder();
-        CompletionSuggestionBuilder completionSuggestionBuilder = SuggestBuilders.completionSuggestion("title1").text("hi e");
 
-        suggestBuilder.addSuggestion("title1Completiong", completionSuggestionBuilder);
+        TermSuggestionBuilder termSuggestionBuilder = SuggestBuilders.termSuggestion("title2").text("how are");
+
+        suggestBuilder.addSuggestion("title2Term", termSuggestionBuilder);
         LOG.info("suggest: {}", suggestBuilder.toString());
 
         SearchResponse searchResponse = esClient.prepareSearch("demo").setTypes("demo").suggest(suggestBuilder).get();

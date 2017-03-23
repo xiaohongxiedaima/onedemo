@@ -30,8 +30,10 @@ http://localhost:9200/demo/?pretty
           "analyzer": "custom_analyzer"
         },
         "title1": {
-          "type": "completion",
-          "fielddata": true
+          "type": "completion"
+        },
+        "title2": {
+            "type": "text"
         }
       }
     }
