@@ -80,7 +80,7 @@ public class BST<K extends Comparable, V> {
     }
 
     /**
-     * 中序遍历 先访问跟节点 再访问左子树 再访问右子树
+     * 先序遍历 先访问跟节点 再访问左子树 再访问右子树
      * @param root
      */
     public void printOrder(BSTNode root) {
@@ -98,7 +98,7 @@ public class BST<K extends Comparable, V> {
     }
 
     /**
-     * 先序遍历 先访问左字数 再访问根节点 再访问右子树
+     * 中序遍历 先访问左字数 再访问根节点 再访问右子树
      * @param root
      */
     public void printPreOrder(BSTNode root) {
