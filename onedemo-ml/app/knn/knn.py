@@ -40,6 +40,19 @@ def classify0(in_x, data_set, labels, k):
     return sorted_class_count[0][0]
 
 
+def auto_norm(data_set):
+    min_vals = data_set.min(0)
+    max_vals = data_set.max(0)
+    ranges = max_vals - min_vals
+    # norm_data_set = np.zeros(np.shape(data_set))
+    m = data_set.shape[0]
+    norm_data_set = data_set - np.tile(min_vals, (m, 1))
+    norm_data_set = norm_data_set / np.tile(ranges, (m, 1))
+
+    return norm_data_set, ranges, min_vals
+
+
+
 if __name__ == '__main__':
     group, labels = create_data_set()
 

@@ -46,6 +46,9 @@ def show_scatter(group, labels_colors, metrics):
 if __name__ == '__main__':
     filename = "/home/xiaohong/code/onedemo/onedemo-ml/resources/knn/datingTestSet.txt"
     group, labels = knn.create_data_set_from_file(filename)
+
+    group, ranges, min_vals = knn.auto_norm(group)
+
     print(group)
     print(labels)
     metrics = {
@@ -65,4 +68,23 @@ if __name__ == '__main__':
         else:
             color = [label, 'r']
         labels_colors.append(color)
-    show_scatter(group, np.array(labels_colors), metrics)
+    # show_scatter(group, np.array(labels_colors), metrics)
+
+    # 算法测试
+    num_test_vecs = int(0.1 * group.shape[0])
+    error_count = 0.0
+
+    for i in range(num_test_vecs):
+        classifier_result = knn.classify0(group[i, :],
+                                          group[num_test_vecs:group.shape[0], :],
+                                          labels[num_test_vecs: group.shape[0]],
+                                          3)
+        print("classifier result: %s, real answer: %s" % (classifier_result, labels[i]))
+
+        if(classifier_result != labels[i]): error_count += 1.0
+
+    print("total error rate is : %f" % (error_count / float(num_test_vecs)))
+
+
+
+
