@@ -27,7 +27,7 @@ public class ZooKeeperClient{
             logger.info("zookeeper connection state: {}", zooKeeper.getState());
             watcher.await();
             logger.info("zookeeper connection state: {}", zooKeeper.getState());
-            logger.info("zookeeper session establelished" );
+            logger.info("zookeeper session established" );
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

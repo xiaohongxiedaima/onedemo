@@ -17,6 +17,7 @@
         <module>onedemo-elasticsearch</module>
         <module>onedemo-utils</module>
         <module>onedemo-algorithm</module>
+        <module>onedemo-netty</module>
     </modules>
     <packaging>pom</packaging>
 
