@@ -9,12 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>onedemo-scala</artifactId>
+    <artifactId>onedemo-zipkin</artifactId>
 
     <properties>
-        <jdk.version>1.7</jdk.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <scala.version>2.10.6</scala.version>
+        <scala.version>2.11.8</scala.version>
+        <scala.library.version>2.11</scala.library.version>
     </properties>
 
     <dependencies>
@@ -22,23 +21,27 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-reflect</artifactId>
-            <version>${scala.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.mongodb.scala</groupId>
-            <artifactId>mongo-scala-driver_2.11</artifactId>
-            <version>1.1.1</version>
+            <groupId>io.zipkin.reporter</groupId>
+            <artifactId>zipkin-sender-kafka10</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.opentracing.brave</groupId>
+            <artifactId>brave-opentracing</artifactId>
+            <version>0.21.0</version>
         </dependency>
 
     </dependencies>
+    
 </project>

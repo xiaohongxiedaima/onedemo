@@ -1,11 +1,11 @@
-package com.xiaohongxiedaima.demo
+package com.xiaohongxiedaima.demo.spark
 
 import java.util.Date
 
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat2
 import org.apache.hadoop.hbase.{HBaseConfiguration, KeyValue}
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * @author xiaohongxiedaima

@@ -9,6 +9,7 @@ object Sum {
 
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("Simple Application")
+    conf.setMaster("local[*]")
     val sc = new SparkContext(conf)
     val sum = sc.makeRDD(args.map(_.toInt)).sum()
     println(sum)
