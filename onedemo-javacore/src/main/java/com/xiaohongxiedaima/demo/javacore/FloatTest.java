@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo;
+package com.xiaohongxiedaima.demo.javacore;
 
 /**
  * @author xiaohongxiedaima

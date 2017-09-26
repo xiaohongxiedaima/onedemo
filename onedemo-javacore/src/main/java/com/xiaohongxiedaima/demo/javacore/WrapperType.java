@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo;
+package com.xiaohongxiedaima.demo.javacore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
