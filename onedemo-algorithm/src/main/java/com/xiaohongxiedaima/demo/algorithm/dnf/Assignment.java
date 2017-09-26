@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo.javacore.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf;
 
 /**
  * Created by liusheng on 17-9-21.

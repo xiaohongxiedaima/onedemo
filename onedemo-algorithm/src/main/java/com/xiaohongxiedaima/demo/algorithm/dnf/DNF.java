@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo.javacore.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -19,7 +19,7 @@ public class DNF {
 
     private Map<Integer, Map<Assignment, Set<Conjunction>>> second = new TreeMap<Integer, Map<Assignment, Set<Conjunction>>>();
 
-    private void add(String id, List<List<String>> labels) {
+    public void add(String id, List<List<String>> labels) {
 
         for (List<String> assignmentList : labels) {
             // 条件转换为 Java Bean
@@ -39,7 +39,6 @@ public class DNF {
                 ads.add(id);
                 first.put(conjunction, ads);
             }
-
             // 二层
             Integer size = conjunction.getAssignmentList().size();
             Map<Assignment, Set<Conjunction>> assignmentConjunctionMapping = second.get(size);
@@ -103,29 +102,6 @@ public class DNF {
     // TODO 通过 remove 修改不能展示的广告
 
     public static void main(String[] args) {
-        DNF index = new DNF();
 
-        List<List<String>> labels = Arrays.asList(
-                Arrays.asList("a11", "a12", "a13"),
-                Arrays.asList("a21", "a22", "a23"),
-                Arrays.asList("a11", "a22")
-        );
-        for (int i = 10; i < 20;i ++) {
-            index.add(String.valueOf(i), labels);
-        }
-        labels = Arrays.asList(
-                Arrays.asList("a11", "a12", "a13"),
-                Arrays.asList("a21", "a22", "a23"),
-                Arrays.asList("a11")
-        );
-        for (int i = 1; i < 10;i ++) {
-            index.add(String.valueOf(i), labels);
-        }
-
-        LOG.info(JSON.toJSONString(index.first, SerializerFeature.PrettyFormat));
-        LOG.info(JSON.toJSONString(index.second, SerializerFeature.PrettyFormat));
-
-        Set<String> ids = index.query(Arrays.asList("a11"));
-        LOG.info(JSON.toJSONString(ids, SerializerFeature.PrettyFormat));
     }
 }
