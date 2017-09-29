@@ -62,8 +62,6 @@ public class Wand {
 
                 Double adScore = Math.random();
 
-
-
             }
 
 

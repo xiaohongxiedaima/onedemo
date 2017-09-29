@@ -1,27 +1,24 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by liusheng on 17-9-21.
  */
 public class Conjunction {
+    private Set<AbstractAssignment> assignments;
 
-    private List<Assignment> assignmentList;
-
-    public Conjunction() {
+    public Conjunction(Set<AbstractAssignment> assignments) {
+        this.assignments = assignments;
     }
 
-    public Conjunction(List<Assignment> assignmentList) {
-        this.assignmentList = assignmentList;
+    public Set<AbstractAssignment> getAssignments() {
+        return assignments;
     }
 
-    public List<Assignment> getAssignmentList() {
-        return assignmentList;
-    }
-
-    public void setAssignmentList(List<Assignment> assignmentList) {
-        this.assignmentList = assignmentList;
+    public void setAssignments(Set<AbstractAssignment> assignments) {
+        this.assignments = assignments;
     }
 
     @Override
@@ -31,11 +28,18 @@ public class Conjunction {
 
         Conjunction that = (Conjunction) o;
 
-        return assignmentList.equals(that.assignmentList);
+        if (this.assignments.size() != that.getAssignments().size()) return false;
+
+        for (AbstractAssignment assignment : this.assignments) {
+            if (!that.getAssignments().contains(assignment)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return assignmentList.hashCode();
+        return assignments.hashCode();
     }
 }

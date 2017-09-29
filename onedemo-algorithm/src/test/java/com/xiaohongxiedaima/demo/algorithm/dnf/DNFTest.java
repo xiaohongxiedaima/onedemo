@@ -18,24 +18,24 @@ public class DNFTest {
 
     @Test
     public void testAdd() {
-        DNF index = new DNF();
-
-        List<List<String>> labels = Arrays.asList(
-                Arrays.asList("a11", "a12", "a13"),
-                Arrays.asList("a21", "a22", "a23"),
-                Arrays.asList("a11", "a22")
-        );
-        for (int i = 10; i < 20;i ++) {
-            index.add(String.valueOf(i), labels);
-        }
-        labels = Arrays.asList(
-                Arrays.asList("a11", "a12", "a13"),
-                Arrays.asList("a21", "a22", "a23"),
-                Arrays.asList("a11")
-        );
-        for (int i = 1; i < 10;i ++) {
-            index.add(String.valueOf(i), labels);
-        }
+//        DNF index = new DNF();
+//
+//        List<List<String>> labels = Arrays.asList(
+//                Arrays.asList("a11", "a12", "a13"),
+//                Arrays.asList("a21", "a22", "a23"),
+//                Arrays.asList("a11", "a22")
+//        );
+//        for (int i = 10; i < 20;i ++) {
+//            index.add(String.valueOf(i), labels);
+//        }
+//        labels = Arrays.asList(
+//                Arrays.asList("a11", "a12", "a13"),
+//                Arrays.asList("a21", "a22", "a23"),
+//                Arrays.asList("a11")
+//        );
+//        for (int i = 1; i < 10;i ++) {
+//            index.add(String.valueOf(i), labels);
+//        }
 
 //        LOG.info(JSON.toJSONString(index.first, SerializerFeature.PrettyFormat));
 //        LOG.info(JSON.toJSONString(index.second, SerializerFeature.PrettyFormat));
