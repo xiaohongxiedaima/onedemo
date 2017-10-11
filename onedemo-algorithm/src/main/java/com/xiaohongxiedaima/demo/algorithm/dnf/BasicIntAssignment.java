@@ -1,5 +1,8 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by liusheng on 17-9-28.
  */
@@ -9,20 +12,33 @@ public class BasicIntAssignment  extends AbstractAssignment<Integer, Integer>{
         super(label, operator, value);
     }
 
-    protected Boolean match(Integer value) {
-        switch (this.operator) {
-            case GE:
-                return this.value >= value;
-            case GT:
-                return this.value > value;
-            case EQ:
-                return this.value == value;
-            case LE:
-                return this.value <= value;
-            case LT:
-                return this.value < value;
-        }
-        return false;
+    protected Set<AbstractTerm<Integer>> createTerm() {
+        IntTerm term = new IntTerm(this.label, this.value);
+        Set<AbstractTerm<Integer>> set = new HashSet<AbstractTerm<Integer>>();
+        set.add(term);
+        return set;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BasicIntAssignment that = (BasicIntAssignment)o;
+
+        if (!this.label.equals(that.value)) return false;
+        if (!this.operator.equals(that.operator)) return false;
+        if (!this.value.equals(that.value)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = label.hashCode();
+        result = 31 * result + operator.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
     }
 
 }

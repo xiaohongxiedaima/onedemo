@@ -1,5 +1,7 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
+import java.util.Set;
+
 /**
  * Created by liusheng on 17-9-26.
  */
@@ -14,7 +16,7 @@ public abstract class AbstractAssignment<T1, T2> {
         this.value = value;
     }
 
-    protected abstract Boolean match(T2 value);
+    protected abstract Set<AbstractTerm<T2>> createTerm();
 
     public String getLabel() {
         return label;

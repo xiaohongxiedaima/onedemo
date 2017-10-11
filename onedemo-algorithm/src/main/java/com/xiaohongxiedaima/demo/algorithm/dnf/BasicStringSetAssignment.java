@@ -1,5 +1,6 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,13 +11,13 @@ public class BasicStringSetAssignment extends AbstractAssignment<Set<String>, St
         super(label, operator, value);
     }
 
-    protected Boolean match(String value) {
-        switch (this.operator) {
-            case IN:
-                return this.value.contains(value);
-            case NI:
-                return !this.value.contains(value);
+    @Override
+    protected Set<AbstractTerm<String>> createTerm() {
+        Set<AbstractTerm<String>> termSet = new HashSet<AbstractTerm<String>>();
+        for (String v : this.value) {
+            AbstractTerm<String> term = new StringTerm(this.label, v);
+            termSet.add(term);
         }
-        return false;
+        return termSet;
     }
 }

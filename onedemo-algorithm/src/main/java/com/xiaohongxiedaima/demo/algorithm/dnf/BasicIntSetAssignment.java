@@ -1,5 +1,6 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,13 +11,11 @@ public class BasicIntSetAssignment extends AbstractAssignment<Set<Integer>, Inte
         super(label, operator, value);
     }
 
-    protected Boolean match(Integer value) {
-        switch (this.operator) {
-            case IN:
-                return this.value.contains(value);
-            case NI:
-                return !this.value.contains(value);
+    protected Set<AbstractTerm<Integer>> createTerm() {
+        Set<AbstractTerm<Integer>> termSet = new HashSet<AbstractTerm<Integer>>();
+        for (Integer v : this.value) {
+            termSet.add(new IntTerm(this.label, v));
         }
-        return false;
+        return termSet;
     }
 }

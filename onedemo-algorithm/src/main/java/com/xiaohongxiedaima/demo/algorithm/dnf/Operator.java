@@ -8,5 +8,5 @@ package com.xiaohongxiedaima.demo.algorithm.dnf;
  * OI 起码包含一个
  */
 public enum  Operator {
-    GE, GT, EQ, NE, LT, LE, IN, NI, AI, OI,
+    GE, LE, EQ, NE
 }
