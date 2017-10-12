@@ -12,18 +12,15 @@ public class StringTerm extends AbstractTerm<String> {
         super(name, value);
     }
 
-    protected Set<Conjunction> match(String value, Map<Operator, Set<Conjunction>> conjunctions) {
+    protected Set<Conjunction> match(String value, Pair<Operator, Set<Conjunction>> pair) {
         Set<Conjunction> set = new HashSet<Conjunction>();
 
-        for (Map.Entry<Operator, Set<Conjunction>> entry : conjunctions.entrySet()) {
-            switch (entry.getKey()) {
-                case EQ:
-                    if (this.value.equals(value)) set.addAll(entry.getValue());
-                case NE:
-                    if (!this.value.equals(value)) set.addAll(entry.getValue());
-            }
+        switch (pair.getKey()) {
+            case EQ:
+                if (this.value.equals(value)) set.addAll(pair.getValue());
+            case NE:
+                if (!this.value.equals(value)) set.addAll(pair.getValue());
         }
-
 
         return set;
     }

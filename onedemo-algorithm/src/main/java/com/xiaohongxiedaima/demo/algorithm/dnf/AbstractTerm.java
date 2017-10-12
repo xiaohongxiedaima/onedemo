@@ -16,7 +16,7 @@ public abstract class AbstractTerm<T> {
         this.value = value;
     }
 
-    abstract protected Set<Conjunction> match(T value, Map<Operator, Set<Conjunction>> conjunctions);
+    abstract protected Set<Conjunction> match(T value, Pair<Operator, Set<Conjunction>> pair);
 
     public String getName() {
         return name;

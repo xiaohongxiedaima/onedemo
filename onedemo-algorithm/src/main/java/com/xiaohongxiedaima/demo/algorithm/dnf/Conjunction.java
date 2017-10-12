@@ -39,6 +39,10 @@ public class Conjunction {
 
     @Override
     public int hashCode() {
-        return assignments.hashCode();
+        int result = 0;
+        for (AbstractAssignment assignment : assignments) {
+            result = 31 * result + assignment.hashCode();
+        }
+        return result;
     }
 }

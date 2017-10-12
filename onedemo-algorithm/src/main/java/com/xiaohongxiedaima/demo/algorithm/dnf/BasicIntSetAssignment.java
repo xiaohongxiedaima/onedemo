@@ -18,4 +18,39 @@ public class BasicIntSetAssignment extends AbstractAssignment<Set<Integer>, Inte
         }
         return termSet;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BasicIntSetAssignment that = (BasicIntSetAssignment)o;
+
+        if (!this.label.equals(that.label)) return false;
+        if (!this.operator.equals(that.operator)) return false;
+
+        if (this.value.size() != that.value.size()) return false;
+
+        for (Integer v : this.value) {
+            if (!that.value.contains(v)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = label.hashCode();
+        result = 31 * result + operator.hashCode();
+
+        int valueResult = 0;
+        for (Integer v : value) {
+            valueResult = v.hashCode() + valueResult;
+        }
+
+        result = 31 * result + valueResult;
+        return result;
+    }
 }

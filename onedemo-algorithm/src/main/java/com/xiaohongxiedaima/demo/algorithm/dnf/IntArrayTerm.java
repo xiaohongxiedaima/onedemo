@@ -12,15 +12,13 @@ public class IntArrayTerm extends AbstractTerm<Integer[]> {
         super(name, value);
     }
 
-    protected Set<Conjunction> match(Integer[] value, Map<Operator, Set<Conjunction>> conjunctions) {
+    protected Set<Conjunction> match(Integer[] value, Pair<Operator, Set<Conjunction>> pair) {
         Set<Conjunction> set = new HashSet<Conjunction>();
-        for (Map.Entry<Operator, Set<Conjunction>> entry : conjunctions.entrySet()) {
-            switch (entry.getKey()) {
-                case EQ:
-                    if (this.value[0] == value[0] && this.value[1] == value[1]) {
-                        set.addAll(entry.getValue());
-                    }
-            }
+        switch (pair.getKey()) {
+            case EQ:
+                if (this.value[0] == value[0] && this.value[1] == value[1]) {
+                    set.addAll(pair.getValue());
+                }
         }
 
         return set;

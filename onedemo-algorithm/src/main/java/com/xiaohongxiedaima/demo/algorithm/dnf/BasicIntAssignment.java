@@ -26,7 +26,7 @@ public class BasicIntAssignment  extends AbstractAssignment<Integer, Integer>{
 
         BasicIntAssignment that = (BasicIntAssignment)o;
 
-        if (!this.label.equals(that.value)) return false;
+        if (!this.label.equals(that.label)) return false;
         if (!this.operator.equals(that.operator)) return false;
         if (!this.value.equals(that.value)) return false;
 

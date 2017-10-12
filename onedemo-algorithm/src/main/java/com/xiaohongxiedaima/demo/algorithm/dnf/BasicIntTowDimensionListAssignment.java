@@ -28,17 +28,43 @@ public class BasicIntTowDimensionListAssignment extends AbstractAssignment<List<
         return set;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-//    protected Boolean match(Integer[] value) {
-//        if (this.value.containsKey(value[0])) {
-//            Set<Integer> timeSet = this.value.get(value[0]);
-//            if (timeSet.contains(value[1])) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+        BasicIntTowDimensionListAssignment that = (BasicIntTowDimensionListAssignment)o;
 
+        if (!this.label.equals(that.label)) return false;
+        if (!this.operator.equals(that.operator)) return false;
 
+        if (this.value.size() != that.value.size()) return false;
+        for (int i = 0; i < this.value.size(); i ++) {
+            if (this.value.get(i).size() != that.value.get(i).size()) return false;
+            for (int j = 0; j < this.value.get(i).size(); j ++) {
+                if (this.value.get(i).get(j) != that.value.get(i).get(j)) return false;
+            }
+        }
+        return true;
+    }
 
+    @Override
+    public int hashCode() {
+
+        int result = label.hashCode();
+        result = 31 * result + operator.hashCode();
+
+        int valueResult = 0;
+        for (int i = 0; i < this.value.size(); i ++) {
+            int vResult = 0;
+            for (int j = 0; j < this.value.get(i).size(); j ++) {
+                vResult = vResult + this.value.get(i).get(j).hashCode();
+            }
+            valueResult = 31 * valueResult + vResult;
+        }
+
+        result = 31 * result + valueResult;
+        return result;
+
+    }
 }

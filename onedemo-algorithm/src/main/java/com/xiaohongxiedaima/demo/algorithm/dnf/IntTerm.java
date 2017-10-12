@@ -12,21 +12,18 @@ public class IntTerm extends AbstractTerm<Integer> {
         super(name, value);
     }
 
-    protected Set<Conjunction> match(Integer value, Map<Operator, Set<Conjunction>> conjunctions) {
+    protected Set<Conjunction> match(Integer value, Pair<Operator, Set<Conjunction>> pair) {
         Set<Conjunction> set = new HashSet<Conjunction>();
-        for (Map.Entry<Operator, Set<Conjunction>> entry : conjunctions.entrySet()) {
-            switch (entry.getKey()) {
-                case EQ:
-                    if (this.value == value) set.addAll(entry.getValue());
-                case NE:
-                    if (this.value != value) set.addAll(entry.getValue());
-                case LE:
-                    if (this.value <= value) set.addAll(entry.getValue());
-                case GE:
-                    if (this.value >= value) set.addAll(entry.getValue());
-            }
+        switch (pair.getKey()) {
+            case EQ:
+                if (this.value == value) set.addAll(pair.getValue());
+            case NE:
+                if (this.value != value) set.addAll(pair.getValue());
+            case LE:
+                if (this.value <= value) set.addAll(pair.getValue());
+            case GE:
+                if (this.value >= value) set.addAll(pair.getValue());
         }
-
         return set;
     }
 
