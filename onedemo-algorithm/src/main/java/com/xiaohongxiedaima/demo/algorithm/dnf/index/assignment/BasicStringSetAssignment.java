@@ -1,4 +1,8 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment;
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.AbstractTerm;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.StringTerm;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +16,7 @@ public class BasicStringSetAssignment extends AbstractAssignment<Set<String>, St
     }
 
     @Override
-    protected Set<AbstractTerm<String>> createTerm() {
+    public Set<AbstractTerm<String>> createTerm() {
         Set<AbstractTerm<String>> termSet = new HashSet<AbstractTerm<String>>();
         for (String v : this.value) {
             AbstractTerm<String> term = new StringTerm(this.label, v);

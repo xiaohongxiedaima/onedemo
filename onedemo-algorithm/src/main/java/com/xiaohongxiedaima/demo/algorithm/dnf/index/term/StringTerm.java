@@ -1,4 +1,7 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.term;
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Conjunction;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -12,15 +15,18 @@ public class StringTerm extends AbstractTerm<String> {
         super(name, value);
     }
 
-    protected Set<Conjunction> match(String value, Pair<Operator, Set<Conjunction>> pair) {
+    public Set<Conjunction> match(String value, Map<Operator, Set<Conjunction>> conjunctions) {
         Set<Conjunction> set = new HashSet<Conjunction>();
 
-        switch (pair.getKey()) {
-            case EQ:
-                if (this.value.equals(value)) set.addAll(pair.getValue());
-            case NE:
-                if (!this.value.equals(value)) set.addAll(pair.getValue());
+        for (Map.Entry<Operator, Set<Conjunction>> entry : conjunctions.entrySet()) {
+            switch (entry.getKey()) {
+                case EQ:
+                    if (this.value.equals(value)) set.addAll(entry.getValue());
+                case NE:
+                    if (!this.value.equals(value)) set.addAll(entry.getValue());
+            }
         }
+
 
         return set;
     }

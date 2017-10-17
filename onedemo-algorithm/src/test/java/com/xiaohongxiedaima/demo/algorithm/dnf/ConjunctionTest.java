@@ -1,5 +1,10 @@
 package com.xiaohongxiedaima.demo.algorithm.dnf;
 
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Conjunction;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment.AbstractAssignment;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment.BasicIntAssignment;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment.BasicIntTowDimensionListAssignment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -19,7 +24,7 @@ public class ConjunctionTest {
     @Test
     public void testAddToSet() {
 
-        AbstractAssignment a1 = new BasicIntAssignment("pStarttime", Operator.LE, 1471795200);
+        AbstractAssignment a1 = new BasicIntAssignment("pStarttime", Operator.EQ, 1471795200);
         List<List<Integer>> schedule = Arrays.asList(Arrays.asList(0, 1, 2));
         AbstractAssignment a2 = new BasicIntTowDimensionListAssignment("gSchedule", Operator.EQ, schedule);
 
@@ -28,7 +33,7 @@ public class ConjunctionTest {
         set.add(a2);
         Conjunction c1 = new Conjunction(set);
 
-        AbstractAssignment a3 = new BasicIntAssignment("pStarttime", Operator.LE, 1471795200);
+        AbstractAssignment a3 = new BasicIntAssignment("pStarttime", Operator.EQ, 1471795200);
         schedule = Arrays.asList(Arrays.asList(0, 1, 2));
         AbstractAssignment a4 = new BasicIntTowDimensionListAssignment("gSchedule", Operator.EQ, schedule);
 

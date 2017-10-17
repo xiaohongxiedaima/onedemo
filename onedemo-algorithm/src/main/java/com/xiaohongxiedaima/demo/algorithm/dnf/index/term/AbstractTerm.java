@@ -1,4 +1,8 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.term;
+
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Conjunction;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +20,7 @@ public abstract class AbstractTerm<T> {
         this.value = value;
     }
 
-    abstract protected Set<Conjunction> match(T value, Pair<Operator, Set<Conjunction>> pair);
+    abstract public Set<Conjunction> match(T value, Map<Operator, Set<Conjunction>> conjunctions);
 
     public String getName() {
         return name;

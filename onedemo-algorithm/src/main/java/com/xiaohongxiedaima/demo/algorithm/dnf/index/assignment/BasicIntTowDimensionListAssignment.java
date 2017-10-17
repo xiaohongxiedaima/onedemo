@@ -1,9 +1,14 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment;
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.AbstractTerm;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.IntArrayTerm;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+;
 
 /**
  * Created by liusheng on 17-9-28.
@@ -13,7 +18,7 @@ public class BasicIntTowDimensionListAssignment extends AbstractAssignment<List<
         super(label, operator, value);
     }
 
-    protected Set<AbstractTerm<Integer[]>> createTerm() {
+    public Set<AbstractTerm<Integer[]>> createTerm() {
         Set<AbstractTerm<Integer[]>> set = new HashSet<AbstractTerm<Integer[]>>();
         for (int i = 0; i < this.value.size(); i ++) {
             List<Integer> subList = this.value.get(i);

@@ -14,7 +14,7 @@ public class AdGroup {
     private String planId;
     /** 0:暂停,1:有效,2:未开始,3:已下线,-1:删除 */
     @SerializedName("plan_status")
-    private String planStatus;
+    private Integer planStatus;
     /** 1:pc 2:移动 */
     @SerializedName("ad_type")
     private List<Integer> adType;
@@ -70,11 +70,11 @@ public class AdGroup {
         this.planId = planId;
     }
 
-    public String getPlanStatus() {
+    public Integer getPlanStatus() {
         return planStatus;
     }
 
-    public void setPlanStatus(String planStatus) {
+    public void setPlanStatus(Integer planStatus) {
         this.planStatus = planStatus;
     }
 

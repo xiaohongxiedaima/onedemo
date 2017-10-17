@@ -1,4 +1,7 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment;
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.AbstractTerm;
 
 import java.util.Set;
 
@@ -16,7 +19,7 @@ public abstract class AbstractAssignment<T1, T2> {
         this.value = value;
     }
 
-    protected abstract Set<AbstractTerm<T2>> createTerm();
+    public abstract Set<AbstractTerm<T2>> createTerm();
 
     public String getLabel() {
         return label;

@@ -1,4 +1,8 @@
-package com.xiaohongxiedaima.demo.algorithm.dnf;
+package com.xiaohongxiedaima.demo.algorithm.dnf.index.assignment;
+
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.Operator;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.AbstractTerm;
+import com.xiaohongxiedaima.demo.algorithm.dnf.index.term.IntTerm;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +16,7 @@ public class BasicIntAssignment  extends AbstractAssignment<Integer, Integer>{
         super(label, operator, value);
     }
 
-    protected Set<AbstractTerm<Integer>> createTerm() {
+    public Set<AbstractTerm<Integer>> createTerm() {
         IntTerm term = new IntTerm(this.label, this.value);
         Set<AbstractTerm<Integer>> set = new HashSet<AbstractTerm<Integer>>();
         set.add(term);
