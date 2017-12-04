@@ -7,9 +7,7 @@ import scala.util.Sorting
   * @version 16-8-25
   * @E-mail redfishinaction@yahoo.com
   */
-case class OrderedTest(val name: String, val age: Int) {
-
-}
+case class OrderedTest(val name: String, val age: Int)
 
 object OrderedTest {
 
