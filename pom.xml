@@ -19,8 +19,6 @@
         <module>onedemo-algorithm</module>
         <module>onedemo-netty</module>
         <module>onedemo-mongodb</module>
-        <module>onedemo-zipkin</module>
-        <module>onedemo-jstorm</module>
         <module>onedemo-thrift</module>
         <module>onedemo-thread</module>
     </modules>
