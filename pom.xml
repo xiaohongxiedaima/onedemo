@@ -7,7 +7,6 @@
     <version>1.0</version>
     <modules>
         <module>onedemo-zookeeper</module>
-        <module>onedemo-hadoop</module>
         <module>onedemo-kafka</module>
         <module>onedemo-spark</module>
         <module>onedemo-hbase</module>
