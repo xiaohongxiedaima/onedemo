@@ -21,7 +21,6 @@ object FutureTest extends Logging {
       logger.info(str)
     })
 
-    future.flatMap(str => "Future")
 
     Thread.sleep(10000)
 
