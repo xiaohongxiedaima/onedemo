@@ -1,0 +1,7 @@
+module ip
+{
+	interface Ip
+	{
+	    string query(string ip);
+	};
+};

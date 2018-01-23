@@ -20,6 +20,7 @@
         <module>onedemo-mongodb</module>
         <module>onedemo-thrift</module>
         <module>onedemo-thread</module>
+        <module>onedemo-tars</module>
     </modules>
     <packaging>pom</packaging>
 
