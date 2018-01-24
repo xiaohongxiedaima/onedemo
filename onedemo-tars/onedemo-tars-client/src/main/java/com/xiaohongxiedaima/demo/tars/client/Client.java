@@ -39,14 +39,14 @@ public class Client {
         }
 
         ServantProxyConfig ipPrxConfig = new ServantProxyConfig("dmp.ip.ipObj");
-        ipPrxConfig.setSyncTimeout(15);
+        ipPrxConfig.setSyncTimeout(50);
         IpPrx ipPrx = communicator.stringToProxy(IpPrx.class, ipPrxConfig);
         String ipResult = ipPrx.query("ip");
 
         log.info("ip: {}", ipResult);
 
         ServantProxyConfig indexPrxConfig = new ServantProxyConfig("dmp.index.indexObj");
-        indexPrxConfig.setSyncTimeout(5);
+        indexPrxConfig.setSyncTimeout(30);
         IndexPrx indexPrx = communicator.stringToProxy(IndexPrx.class, indexPrxConfig);
         String indexResult = indexPrx.query("adid");
         log.info("adid: {}", indexResult);
