@@ -38,18 +38,18 @@ public class Client {
             throw new RuntimeException(e);
         }
 
-        ServantProxyConfig ipPrxConfig = new ServantProxyConfig("dmp.ip.ipObj");
+        ServantProxyConfig ipPrxConfig = new ServantProxyConfig("dmp.ip.IpObj");
         ipPrxConfig.setSyncTimeout(50);
         IpPrx ipPrx = communicator.stringToProxy(IpPrx.class, ipPrxConfig);
         String ipResult = ipPrx.query("ip");
 
         log.info("ip: {}", ipResult);
 
-        ServantProxyConfig indexPrxConfig = new ServantProxyConfig("dmp.index.indexObj");
-        indexPrxConfig.setSyncTimeout(30);
-        IndexPrx indexPrx = communicator.stringToProxy(IndexPrx.class, indexPrxConfig);
-        String indexResult = indexPrx.query("adid");
-        log.info("adid: {}", indexResult);
+//        ServantProxyConfig indexPrxConfig = new ServantProxyConfig("dmp.index.indexObj");
+//        indexPrxConfig.setSyncTimeout(30);
+//        IndexPrx indexPrx = communicator.stringToProxy(IndexPrx.class, indexPrxConfig);
+//        String indexResult = indexPrx.query("adid");
+//        log.info("adid: {}", indexResult);
 
 
     }
