@@ -18,9 +18,9 @@
         <module>onedemo-algorithm</module>
         <module>onedemo-netty</module>
         <module>onedemo-mongodb</module>
-        <module>onedemo-thrift</module>
         <module>onedemo-thread</module>
         <module>onedemo-tars</module>
+        <module>onedemo-spring</module>
     </modules>
     <packaging>pom</packaging>
 
