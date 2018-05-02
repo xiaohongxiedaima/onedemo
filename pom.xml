@@ -21,6 +21,7 @@
         <module>onedemo-thread</module>
         <module>onedemo-tars</module>
         <module>onedemo-spring</module>
+        <module>onedemo-jstorm</module>
     </modules>
     <packaging>pom</packaging>
 

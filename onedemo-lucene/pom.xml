@@ -42,6 +42,12 @@
             <version>${lucene.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-suggest</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>com.chenlb.mmseg4j</groupId>-->
             <!--<artifactId>mmseg4j-solr</artifactId>-->
@@ -80,15 +86,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
-        <!-- 6.4.1 版本lucene -->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.lucene</groupId>-->
-            <!--<artifactId>lucene-suggest</artifactId>-->
-            <!--<version>6.4.1</version>-->
-        <!--</dependency>-->
-
 
     </dependencies>
 </project>

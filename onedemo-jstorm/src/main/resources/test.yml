@@ -1,0 +1,3 @@
+topology.name: test
+spout.parallel: 1
+bolt.parallel: 1

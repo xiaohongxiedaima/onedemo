@@ -2,13 +2,10 @@ package com.xiaohongxiedaima.demo.titleanalyzer;
 
 import com.xiaohongxiedaima.demo.utils.LuceneUtils;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.index.IndexWriter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -37,8 +34,8 @@ public class Main {
                 String title = words[1];
 
                 Document doc = new Document();
-                IntField goodsIdField = new IntField("goodsId", goodsId, Field.Store.YES);
-                TextField titleField = new TextField("title", title, Field.Store.YES);
+                StoredField goodsIdField = new StoredField("goodsId", goodsId);
+                StoredField titleField = new StoredField("title", title);
 
 //                doc.add(goodsIdField);
                 doc.add(titleField);

@@ -1,12 +1,11 @@
 package com.xiaohongxiedaima.demo.spark
 
-import org.apache.spark.{SparkConf, TaskContext}
-import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.spark.streaming.kafka010._
-import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
+import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
+import org.apache.spark.streaming.kafka010._
+import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.{SparkConf, TaskContext}
 
 /**
   * Created by liusheng on 17-7-5.
@@ -25,7 +24,7 @@ object KafkaExactlyOnce {
       "value.deserializer" -> classOf[StringDeserializer],
       "group.id" -> "KafkaExactlyOnce",
       "auto.offset.reset" -> "latest",
-      "enable.auto.commit" -> false
+      "enable.auto.commit" -> Boolean.box(false)
     )
 
     val topics = Array("topicA", "topicB")

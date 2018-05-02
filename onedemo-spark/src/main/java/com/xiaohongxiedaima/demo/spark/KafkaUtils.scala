@@ -5,7 +5,7 @@ package com.xiaohongxiedaima.demo.spark
   */
 object KafkaManager {
 
-  def getOffset(topic: String, groupId: String, consumerTime: String):
+  def getOffset(topic: String, groupId: String, consumerTime: String) = {}
 
 
 }
