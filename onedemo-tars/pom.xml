@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>onedemo</artifactId>
+        <groupId>com.xiaohongxiedaima.demo</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.xiaohongxiedaima.demo</groupId>
+    <artifactId>onedemo-tars</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <spring.version>4.1.4.RELEASE</spring.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>qq-cloud-central</groupId>
+            <artifactId>tars-server</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

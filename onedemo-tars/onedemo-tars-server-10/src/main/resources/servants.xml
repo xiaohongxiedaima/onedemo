@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servants>
+    <servant name="IpObj">
+        <home-api>com.xiaohongxiedaima.demo.tars.server.ip.IpServant</home-api>
+        <home-class>com.xiaohongxiedaima.demo.tars.server.ip.impl.IpServantImpl</home-class>
+    </servant>
+</servants>

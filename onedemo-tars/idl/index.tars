@@ -1,0 +1,7 @@
+module index
+{
+	interface Index
+	{
+	    string query(string adid);
+	};
+};

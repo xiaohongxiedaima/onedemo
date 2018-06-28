@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>onedemo-tars</artifactId>
+        <groupId>com.xiaohongxiedaima.demo</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.xiaohongxiedaima.demo</groupId>
+    <artifactId>onedemo-tars-server-10</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>qq-cloud-central</groupId>
+            <artifactId>tars-server</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>qq-cloud-central</groupId>
+                <artifactId>tars-maven-plugin</artifactId>
+                <version>1.0.3</version>
+                <configuration>
+                    <tars2JavaConfig>
+                        <tarsFiles>
+                            <tarsFile>${basedir}/../idl/ip.tars</tarsFile>
+                        </tarsFiles>
+                        <tarsFileCharset>UTF-8</tarsFileCharset>
+                        <servant>true</servant>
+                        <srcPath>${basedir}/src/main/java</srcPath>
+                        <charset>UTF-8</charset>
+                        <packagePrefixName>com.xiaohongxiedaima.demo.tars.server.</packagePrefixName>
+                    </tars2JavaConfig>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

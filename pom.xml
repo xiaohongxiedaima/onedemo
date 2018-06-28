@@ -7,7 +7,6 @@
     <version>1.0</version>
     <modules>
         <module>onedemo-zookeeper</module>
-        <module>onedemo-hadoop</module>
         <module>onedemo-kafka</module>
         <module>onedemo-spark</module>
         <module>onedemo-hbase</module>
@@ -19,10 +18,10 @@
         <module>onedemo-algorithm</module>
         <module>onedemo-netty</module>
         <module>onedemo-mongodb</module>
-        <module>onedemo-zipkin</module>
-        <module>onedemo-jstorm</module>
-        <module>onedemo-thrift</module>
         <module>onedemo-thread</module>
+        <module>onedemo-tars</module>
+        <module>onedemo-spring</module>
+        <module>onedemo-jstorm</module>
     </modules>
     <packaging>pom</packaging>
 

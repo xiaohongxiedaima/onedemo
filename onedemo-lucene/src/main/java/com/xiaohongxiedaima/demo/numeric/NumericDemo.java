@@ -1,6 +1,5 @@
 package com.xiaohongxiedaima.demo.numeric;
 
-import com.xiaohongxiedaima.demo.GoodsInfoIndex;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -41,7 +40,7 @@ public class NumericDemo {
         sorted_double_store_field_type.setStored(true);
         sorted_double_store_field_type.setOmitNorms(true);
         sorted_double_store_field_type.setIndexOptions(IndexOptions.DOCS);
-        sorted_double_store_field_type.setNumericType(FieldType.NumericType.DOUBLE);
+        sorted_double_store_field_type.setNumericType(FieldType.LegacyNumericType.DOUBLE);
         sorted_double_store_field_type.setDocValuesType(DocValuesType.SORTED_NUMERIC);
         sorted_double_store_field_type.freeze();
     }
@@ -148,7 +147,7 @@ public class NumericDemo {
             Float length = (Float) record.get("length");
             String name = (String) record.get("name");
 
-            LongField idField = new LongField("id", id, Field.Store.YES);
+            StoredField idField = new StoredField("id", id);
 //            IntField statusField = new IntField("status", status, Field.Store.YES);
 
             SortedNumericDocValuesField statusField = new SortedNumericDocValuesField("status", status);
@@ -157,7 +156,7 @@ public class NumericDemo {
 //            DoubleField priceField = new DoubleField("price", price, sorted_double_store_field_type);
             SortedNumericDocValuesField priceField = new SortedNumericDocValuesField("price", NumericUtils.doubleToSortableLong(price));
 
-            FloatField lengthField = new FloatField("length", length, Field.Store.YES);
+            StoredField lengthField = new StoredField("length", length);
             TextField nameField = new TextField("name", name, Field.Store.YES);
 
             Document document = new Document();
@@ -199,22 +198,22 @@ public class NumericDemo {
         Analyzer analyzer = demo.getAnalyzer();
 
         logger.info("int range");
-        Query query = NumericRangeQuery.newIntRange("status", 0, 1, true, false);
+        Query query = IntPoint.newRangeQuery("status", 0, 1);
         TopDocs topDocs = searcher.search(query, 10);
         print(topDocs, searcher);
 
         logger.info("long range");
-        query = NumericRangeQuery.newLongRange("id", 4l , 6l, true, false);
+        query = LongPoint.newRangeQuery("id", 4l , 6l);
         topDocs = searcher.search(query, 10);
         print(topDocs, searcher);
 
         logger.info("double range");
-        query = NumericRangeQuery.newDoubleRange("price", 1.0 , 2.3, true, false);
+        query = DoublePoint.newRangeQuery("price", 1.0 , 2.3);
         topDocs = searcher.search(query, 10);
         print(topDocs, searcher);
 
         logger.info("float range");
-        query = NumericRangeQuery.newFloatRange("length", 0.1f , 2.3f, true, true);
+        query = FloatPoint.newRangeQuery("length", 0.1f , 2.3f);
         topDocs = searcher.search(query, 10);
         print(topDocs, searcher);
 

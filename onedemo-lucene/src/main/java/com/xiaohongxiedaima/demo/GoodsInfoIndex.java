@@ -1,18 +1,14 @@
 package com.xiaohongxiedaima.demo;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.rangetree.NumericRangeTreeQuery;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.NumericUtils;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 import org.slf4j.Logger;
@@ -43,7 +39,7 @@ public class GoodsInfoIndex {
         DOUBLE_FIELD_TYPE_STORED_SORTED.setTokenized(true);
         DOUBLE_FIELD_TYPE_STORED_SORTED.setOmitNorms(true);
         DOUBLE_FIELD_TYPE_STORED_SORTED.setIndexOptions(IndexOptions.DOCS);
-        DOUBLE_FIELD_TYPE_STORED_SORTED.setNumericType(FieldType.NumericType.DOUBLE);
+        DOUBLE_FIELD_TYPE_STORED_SORTED.setNumericType(FieldType.LegacyNumericType.DOUBLE);
         DOUBLE_FIELD_TYPE_STORED_SORTED.setStored(true);
         DOUBLE_FIELD_TYPE_STORED_SORTED.setDocValuesType(DocValuesType.NUMERIC);
         DOUBLE_FIELD_TYPE_STORED_SORTED.freeze();
@@ -117,7 +113,7 @@ public class GoodsInfoIndex {
                 String goodsAttrs = (String) record.get(GOODS_ATTRS);
 
                 // 添加索引
-                IntField goodsIdField = new IntField(GOODS_ID, goodsId, Field.Store.YES);
+                StoredField goodsIdField = new StoredField(GOODS_ID, goodsId);
 
 //                SortedNumericDocValuesField goodsBaseScoreField = new SortedNumericDocValuesField(GOODS_BASE_SCORE, NumericUtils.doubleToSortableLong(goodsBaseScore));
 
@@ -163,7 +159,8 @@ public class GoodsInfoIndex {
 
 //            Query query = NumericRangeQuery.newDoubleRange(GOODS_BASE_SCORE, 0d, 1d, true, true);
 
-            Query query = NumericRangeQuery.newIntRange(GOODS_BASE_SCORE, 1, 10, true, true);
+
+            Query query = IntPoint.newRangeQuery(GOODS_BASE_SCORE, 1, 10);
 
             TopDocs topDocs = searcher.search(query, 10);
 
