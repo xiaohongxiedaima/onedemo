@@ -60,34 +60,8 @@ public class WordCountApplication {
 
         KafkaStreams streams = new KafkaStreams(topology, config);
         streams.setUncaughtExceptionHandler((t, e) -> LOG.error(t.toString(), e));
-        streams.setGlobalStateRestoreListener(new StateRestoreListener() {
-            @Override
-            public void onRestoreStart(TopicPartition topicPartition, String storeName, long startingOffset, long endingOffset) {
-                LOG.info("onRestoreStart,TopicPartition: {}, StoreName: {}, StartingOffset: {}, EndingOffset: {}.",
-                        topicPartition,
-                        storeName,
-                        startingOffset,
-                        endingOffset);
-            }
-
-            @Override
-            public void onBatchRestored(TopicPartition topicPartition, String storeName, long batchEndOffset, long numRestored) {
-                LOG.info("onBatchRestored,TopicPartition: {}, StoreName: {}, BatchEndOffset: {}, NumRestored: {}.",
-                        topicPartition,
-                        storeName,
-                        batchEndOffset,
-                        numRestored);
-            }
-
-            @Override
-            public void onRestoreEnd(TopicPartition topicPartition, String storeName, long totalRestored) {
-                LOG.info("onBatchRestored,TopicPartition: {}, StoreName: {}, TotalRestored: {}.",
-                        topicPartition,
-                        storeName,
-                        totalRestored);
-            }
-        });
         streams.start();
+//        streams.cleanUp();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> streams.close(), "kafka-stream-shutdown-hook"));
     }
