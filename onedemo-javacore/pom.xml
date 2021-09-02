@@ -12,6 +12,7 @@
 
     <name>onedemo-javacore</name>
     <url>http://maven.apache.org</url>
+
     <build>
         <plugins>
             <plugin>
@@ -30,5 +31,19 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.9</version>
+        </dependency>
+
     </dependencies>
 </project>
