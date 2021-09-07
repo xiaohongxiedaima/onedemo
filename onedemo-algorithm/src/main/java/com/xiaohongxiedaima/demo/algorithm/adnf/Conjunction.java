@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 /**
  * @author liusheng
  * @date 2021年08月30日 5:42 下午
+ *
+ * {"age" : ["20", "30"] , "gender" : ["女"] , "geo" : ["北京"]}
  */
 @Data
 public class Conjunction {
@@ -25,9 +27,14 @@ public class Conjunction {
     }
 
     public List<Assignment.Term> toTermList() {
-        return this.assignmentList.stream().flatMap(assignment -> assignment.toTermList().stream()).collect(Collectors.toList());
+        return this.assignmentList.stream()
+                .flatMap(assignment -> assignment.toTermList().stream())
+                .collect(Collectors.toList());
     }
 
+    /**
+     * {"age" : ["20", "30"]}
+     */
     public static class Assignment {
         private final String termKey;
 
@@ -42,6 +49,9 @@ public class Conjunction {
             return this.termValueList.stream().map(temValue -> Term.of(termKey, temValue)).collect(Collectors.toList());
         }
 
+        /**
+         * {age: 20}
+         */
         @Data
         public static class Term {
             private String key;
@@ -66,6 +76,11 @@ public class Conjunction {
             @Override
             public int hashCode() {
                 return Objects.hash(key, value);
+            }
+
+            @Override
+            public String toString() {
+                return this.key + " = " + this.value;
             }
         }
     }

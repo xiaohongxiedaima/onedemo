@@ -21,12 +21,13 @@ public class DNF {
     public void add(Integer id, String json) {
         Conjunction conjunction = Conjunction.parse(json);
 
+        // 第 N 层 Term 到广告id的映射
+        // <Term, [广告ID]>
         Map<Term, Set<Integer>> termAdIdMap = index.computeIfAbsent(conjunction.getSize(), k -> new HashMap<>());
 
         List<Term> termList = conjunction.toTermList();
         for (Term term : termList) {
             Set<Integer> set = termAdIdMap.computeIfAbsent(term, k -> new TreeSet<>());
-
             set.add(id);
         }
     }
@@ -41,9 +42,15 @@ public class DNF {
         return list;
     }
 
+    /**
+     * 分层查询匹配的广告
+     * @param level
+     * @param queryTermList 查询条件
+     * @return
+     */
     private List<Integer> queryByLevel(int level, List<Term> queryTermList) {
         Map<Term, Set<Integer>> termAdIdMap = index.get(level);
-        // 某一层没有广告
+        // 没有sizeOf(Conjunction) == level的情况, 即对应 level 没有广告
         if (termAdIdMap == null) {
             return new ArrayList<>();
         }
@@ -65,6 +72,12 @@ public class DNF {
         return countAndFilter1(level, termMatchList);
     }
 
+    /**
+     * 广告id 在 termMatchList 中出现 level 次，那么这个广告id 符合查询条件
+     * @param level
+     * @param termMatchList [[广告id, 广告id],[广告id, 广告id]]
+     * @return
+     */
     private List<Integer> countAndFilter1(int level, List<List<Integer>> termMatchList) {
         Map<Integer, Integer> countMap = new HashMap<>();
 
