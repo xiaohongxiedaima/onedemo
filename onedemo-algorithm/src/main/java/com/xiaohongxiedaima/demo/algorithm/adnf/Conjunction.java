@@ -88,9 +88,8 @@ public class Conjunction {
     private static final Gson GSON = new Gson();
 
     /**
-     * {"age": ["30"], "geo": ["北京"], "gender": ["男", "女"]}
-     *
-     * @param json
+     * 将定向条件解析为 Conjunction Assignment Term 结构
+     * @param json {"age": ["30"], "geo": ["北京"], "gender": ["男", "女"]}
      * @return
      */
     public static Conjunction parse(String json) {

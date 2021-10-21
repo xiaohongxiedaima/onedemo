@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * @author liusheng
- * @date 2021年09月01日 4:08 下午
+ * @date A2021年09月01日 4:08 下午
  */
 @Slf4j
 public class Main {
@@ -32,23 +32,23 @@ public class Main {
         data.forEach(dnf::add);
         dnf.print();
 
-        // {age: 30}
-        List<Conjunction.Assignment.Term> queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "30"));
+        // {age: A30}
+        List<Conjunction.Assignment.Term> queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "A30"));
         List<Integer> adidList = dnf.query(queryTermList);
         log.info("queryTermList: {}, adidList: {}", queryTermList, adidList);
 
-        // {age: 20}
-        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "20"));
+        // {age: A20}
+        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "A20"));
         adidList = dnf.query(queryTermList);
         log.info("queryTermList: {}, adidList: {}", queryTermList, adidList);
 
-        // {age:20, gender: 女}
-        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "20"), Conjunction.Assignment.Term.of("gender", "女"));
+        // {age:A20, gender: 女}
+        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "A20"), Conjunction.Assignment.Term.of("gender", "女"));
         adidList = dnf.query(queryTermList);
         log.info("queryTermList: {}, adidList: {}", queryTermList, adidList);
 
-        // {age:20, gender:女, geo:北京}
-        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "20"), Conjunction.Assignment.Term.of("gender", "女"), Conjunction.Assignment.Term.of("geo", "北京"));
+        // {age:A20, gender:女, geo:北京}
+        queryTermList = Arrays.asList(Conjunction.Assignment.Term.of("age", "A20"), Conjunction.Assignment.Term.of("gender", "女"), Conjunction.Assignment.Term.of("geo", "北京"));
         adidList = dnf.query(queryTermList);
         log.info("queryTermList: {}, adidList: {}", queryTermList, adidList);
     }

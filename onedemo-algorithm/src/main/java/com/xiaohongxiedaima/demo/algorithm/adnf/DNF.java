@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.xiaohongxiedaima.demo.algorithm.adnf.Conjunction.Assignment.Term;
 
@@ -18,6 +19,11 @@ public class DNF {
 
     private Map<Integer, Map<Term, Set<Integer>>> index = new HashMap<>();
 
+    /**
+     * 将广告对应的定向条件添加到索引中
+     * @param id 广告id
+     * @param json 定向条件 {"age": ["30"], "geo": ["北京"], "gender": ["男", "女"]}
+     */
     public void add(Integer id, String json) {
         Conjunction conjunction = Conjunction.parse(json);
 
@@ -32,6 +38,11 @@ public class DNF {
         }
     }
 
+    /**
+     * 查询索引
+     * @param queryTermList 查询条件
+     * @return
+     */
     public List<Integer> query(List<Term> queryTermList) {
         List<Integer> list = new ArrayList<>();
 
@@ -74,8 +85,8 @@ public class DNF {
 
     /**
      * 广告id 在 termMatchList 中出现 level 次，那么这个广告id 符合查询条件
-     * @param level
-     * @param termMatchList [[广告id, 广告id],[广告id, 广告id]]
+     * @param level 执行的是第几层的匹配
+     * @param termMatchList [[广告id1, 广告id2],[广告id1, 广告id3]]
      * @return
      */
     private List<Integer> countAndFilter1(int level, List<List<Integer>> termMatchList) {
@@ -86,17 +97,17 @@ public class DNF {
             countMap.put(adid, ++count);
         }));
 
-        List<Integer> matchAdIdList = new ArrayList<>();
-
-        for (Map.Entry<Integer, Integer> entry : countMap.entrySet()) {
-            if (entry.getValue() == level) {
-                matchAdIdList.add(entry.getKey());
-            }
-        }
+        List<Integer> matchAdIdList = countMap.entrySet().stream()
+                .filter(entry -> entry.getValue() == level)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
         return matchAdIdList;
     }
 
+    /**
+     * 打印底层索引数据
+     */
     public void print() {
         Gson gson = new Gson();
         for (Map.Entry<Integer, Map<Term, Set<Integer>>> sizeEntry : index.entrySet()) {
@@ -117,9 +128,9 @@ public class DNF {
                 }
 
                 String line = String.format(format, sizeStr, termStr, gson.toJson(adIdSet));
-                System.out.println(line);
+                log.info(line);
             }
-            System.out.println("");
+            log.info("");
         }
     }
 
