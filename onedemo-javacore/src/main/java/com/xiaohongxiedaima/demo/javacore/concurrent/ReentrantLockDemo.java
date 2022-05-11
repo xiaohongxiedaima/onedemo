@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo.javacore.thread;
+package com.xiaohongxiedaima.demo.javacore.concurrent;
 
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;

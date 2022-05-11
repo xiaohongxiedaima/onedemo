@@ -1,4 +1,4 @@
-package com.xiaohongxiedaima.demo.javacore.thread.volatiledemo;
+package com.xiaohongxiedaima.demo.javacore.concurrent.volatiledemo;
 
 /**
  * @author liusheng
